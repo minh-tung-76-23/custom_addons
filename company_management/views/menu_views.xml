@@ -1,0 +1,7 @@
+<odoo>
+    <menuitem id="menu_company_management_root" name="Company Management" sequence="10" />
+    <menuitem id="menu_companies" name="Companies" parent="menu_company_management_root"
+        action="action_company_management" />
+    <menuitem id="menu_requests" name="Requests" parent="menu_company_management_root"
+        action="action_company_requests" />
+</odoo>
