@@ -67,3 +67,4 @@ class intern_model(models.Model):
         if 'phone' in vals and not re.match(r'^0\d{9,10}$', vals['phone']):
             raise ValueError("Trường 'Số điện thoại' phải là một số điện thoại hợp lệ bắt đầu bằng 0 và có 10 hoặc 11 chữ số.")
         return super(intern_model, self).write(vals)
+    
