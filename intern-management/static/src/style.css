@@ -1,0 +1,5 @@
+/* Add this CSS to the end of the file */
+
+.custom-tree-view td[data-name="status"] {
+    min-width: 200 !important;
+}
