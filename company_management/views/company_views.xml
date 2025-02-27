@@ -31,7 +31,7 @@
                     <notebook>
                         <page string="Requests">
                             <field name="request_ids">
-                                <list editable="bottom">
+                                <tree editable="bottom">
                                     <field name="name" />
                                     <field name="quantity_intern" />
                                     <field name="request_skills" />
@@ -41,7 +41,7 @@
                                     <field name="work_time" />
                                     <field name="note" />
                                     <field name="request_state" />
-                                </list>
+                                </tree>
                             </field>
                         </page>
                     </notebook>

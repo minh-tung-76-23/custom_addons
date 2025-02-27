@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View University -->
+    <record id="university_view_form" model="ir.ui.view">
+        <field name="name">university.university.form</field>
+        <field name="model">university.university</field>
+        <field name="arch" type="xml">
+            <form string="Trường đại học">
+                <header>
+                    <button name="action_confirm" string="Xác nhận" type="object"
+                        class="oe_highlight" states="draft" />
+                    <button name="action_done" string="Hoàn thành" type="object"
+                        class="oe_highlight" states="confirmed" />
+                    <button name="action_draft" string="Trở về nháp" type="object"
+                        states="confirmed,done" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_students" type="object" class="oe_stat_button"
+                            icon="fa-users" attrs="{'invisible': [('student_count', '=', 0)]}">
+                            <field name="student_count" widget="statinfo" string="Sinh viên" />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Tên trường đại học" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="address" />
+                        </group>
+                        <group>
+                            <field name="student_list" filename="student_filename"
+                                attrs="{'required': [('state', '=', 'draft')]}" />
+                            <field name="student_filename" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <page string="Danh sách sinh viên">
+                            <field name="student_ids" readonly="1">
+                                <tree>
+                                    <!-- <field name="student_id" /> -->
+                                    <field name="name" />
+                                    <field name="age" />
+                                    <field name="email" />
+                                    <field name="address" />
+                                    <field name="phone" />
+                                    <field name="gender" />
+                                    <field name="major" />
+                                    <field name="skills" />
+                                    <field name="university_id" />
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="university_view_tree" model="ir.ui.view">
+        <field name="name">university.university.tree</field>
+        <field name="model">university.university</field>
+        <field name="arch" type="xml">
+            <tree string="Trường đại học" decoration-info="state == 'draft'"
+                decoration-warning="state == 'confirmed'" decoration-success="state == 'done'">
+                <field name="name" />
+                <field name="address" />
+                <field name="student_count" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Update Search View for University -->
+    <record id="university_view_search" model="ir.ui.view">
+        <field name="name">university.university.search</field>
+        <field name="model">university.university</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm trường đại học">
+                <field name="name" />
+                <field name="address" />
+                <filter string="Bản nháp" name="draft" domain="[('state', '=', 'draft')]" />
+                <filter string="Đã nhận" name="confirmed" domain="[('state', '=', 'confirmed')]" />
+                <filter string="Hoàn thành" name="done" domain="[('state', '=', 'done')]" />
+                <group expand="0" string="Group By">
+                    <filter string="Trạng thái" name="group_by_state"
+                        context="{'group_by': 'state'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Update Action for University -->
+    <record id="action_university" model="ir.actions.act_window">
+        <field name="name">Trường đại học</field>
+        <field name="res_model">university.university</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="university_view_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo trường đại học đầu tiên
+            </p>
+        </field>
+    </record>
+</odoo>

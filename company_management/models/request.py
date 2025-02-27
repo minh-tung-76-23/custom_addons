@@ -22,4 +22,7 @@ class Request(models.Model):
     string='Trạng thái yêu cầu', 
     default='insufficient'
 )
-    company_id = fields.Many2one('company.management', string='Tên doanh nghiệp', required=True)
+    company_id = fields.Many2one(
+        comodel_name='company.management',  # Liên kết với mô hình `company.management`
+        string='Company'
+    )

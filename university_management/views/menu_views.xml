@@ -1,0 +1,8 @@
+<odoo>
+    <!-- Menu -->
+    <menuitem id="menu_university_root" name="Quản lý trường đại học" sequence="10" />
+    <menuitem id="menu_university" name="Trường đại học" parent="menu_university_root"
+        action="action_university" sequence="1" />
+    <menuitem id="menu_university_student" name="Sinh viên" parent="menu_university_root"
+        action="action_intern" sequence="2" />
+</odoo>
