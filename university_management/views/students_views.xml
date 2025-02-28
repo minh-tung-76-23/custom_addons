@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form View Intern -->
+    <record id="intern_view_form" model="ir.ui.view">
+        <field name="name">intern.form</field>
+        <field name="model">intern.management</field>
+        <field name="arch" type="xml">
+            <form string="Thực tập sinh">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Họ và tên" />
+                            <field name="birth_date" placeholder="Ngày sinh" widget="date" />
+                            <field name="gender" widget="radio" />
+                        </group>
+                        <group>
+                            <field name="email" placeholder="Email" />
+                            <field name="phone" placeholder="Số điện thoại" />
+                            <field name="address" placeholder="Địa chỉ" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="major" placeholder="Ngành học" />
+                            <field name="skills" placeholder="Kỹ năng" />
+                            <field name="university_id" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="cv" widget="binary" filename="cv_filename" />
+                            <field name="avatar" widget="image" class="oe_avatar"
+                                options="{'preview_image': 'avatar'}" />
+                            <field name="intern_status" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View Intern -->
+    <record id="intern_view_tree" model="ir.ui.view">
+        <field name="name">intern.tree</field>
+        <field name="model">intern.management</field>
+        <field name="arch" type="xml">
+            <tree string="Thực tập sinh">
+                <field name="name" />
+                <field name="birth_date" />
+                <field name="gender" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="major" />
+                <field name="university_id" />
+                <field name="intern_status" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View Intern -->
+    <record id="intern_view_search" model="ir.ui.view">
+        <field name="name">intern.search</field>
+        <field name="model">intern.management</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm thực tập sinh">
+                <field name="name" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="university_id" />
+                <field name="intern_status" />
+                <filter string="Nam" name="male" domain="[('gender', '=', 'male')]" />
+                <filter string="Nữ" name="female" domain="[('gender', '=', 'female')]" />
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Trạng thái" name="group_by_status"
+                        context="{'group_by': 'intern_status'}" />
+                    <filter string="Trường" name="group_by_university"
+                        context="{'group_by': 'university_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for Intern -->
+    <record id="action_intern" model="ir.actions.act_window">
+        <field name="name">Thực tập sinh</field>
+        <field name="res_model">intern.management</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="intern_view_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo thực tập sinh đầu tiên
+            </p>
+        </field>
+    </record>
+
+</odoo>

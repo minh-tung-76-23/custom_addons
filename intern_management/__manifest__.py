@@ -19,14 +19,18 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': [
+        'base', 
+        'university_management', 
+    ],
     'installable': True,
     'application': True,
 
     'data': [
         # 'security/groups.xml',
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         # 'views/menu_views.xml',
         'views/intern_views.xml',
     ],
+    'license': 'LGPL-3', 
 }
