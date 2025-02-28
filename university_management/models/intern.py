@@ -7,7 +7,7 @@ class intern_model(models.Model):
     _description = 'Quản lý thực tập sinh'
 
     name = fields.Char('Tên', required=True)
-    age = fields.Integer('Tuổi', default=20)
+    birth_date = fields.Date('Ngày sinh', default=lambda self: fields.Date.today())
     email = fields.Char('Email', required=True)
     phone = fields.Char('Số điện thoại', required=True)
     address = fields.Text('Địa chỉ')
@@ -17,6 +17,8 @@ class intern_model(models.Model):
         ('other', 'Khác'),
     ], string='Giới tính', default='male')
     major = fields.Char('Ngành học', required=True)
+    # # Thêm trường mới để lưu tên trường đại học dưới dạng văn bản
+    # university = fields.Char('Tên trường đại học')
     skills = fields.Text('Kỹ năng', required=True)
     intern_status = fields.Selection([
         ('pending', 'Đang chờ'),
@@ -30,5 +32,9 @@ class intern_model(models.Model):
     _sql_constraints = [
         ('unique_email', 'UNIQUE(email)', 'Email không được trùng lặp!'),
         ('unique_phone', 'UNIQUE(phone)', 'Số điện thoại không được trùng lặp!'),
-        ('check_age', 'CHECK(age >= 18 AND age <= 60)', 'Tuổi phải nằm trong khoảng từ 18 đến 60!')
     ]
+
+    # @api.onchange('university_id')
+    # def _onchange_university_id(self):
+    #     if self.university_id:
+    #         self.university = self.university_id.name

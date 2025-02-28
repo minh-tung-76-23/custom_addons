@@ -32,4 +32,5 @@
         # 'views/menu_views.xml',
         'views/intern_views.xml',
     ],
+    'license': 'LGPL-3', 
 }

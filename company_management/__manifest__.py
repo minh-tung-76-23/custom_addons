@@ -14,6 +14,7 @@
         'views/request_views.xml',
         'views/menu_views.xml',
     ],
+    'license': 'LGPL-3', 
     # 'demo': [],
     # 'images': [],
     # 'installable': True,

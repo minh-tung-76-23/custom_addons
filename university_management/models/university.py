@@ -5,7 +5,7 @@ import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import openpyxl
-from datetime import datetime
+from datetime import datetime, date
 
 
 _logger = logging.getLogger(__name__)
@@ -75,9 +75,8 @@ class University(models.Model):
                 address = row[6].value if len(row) > 6 else ''
                 
                 # Lấy giá trị các ô bổ sung cho model intern.management
-                age = row[7].value if len(row) > 7 else 0
-                major = row[8].value if len(row) > 8 else ''
-                skills = row[9].value if len(row) > 9 else ''
+                major = row[7].value if len(row) > 7 else ''
+                skills = row[8].value if len(row) > 8 else ''
                 # Các trường CV và avatar sẽ để trống vì cần là Binary và không thể lấy từ file Excel
                                 
                 # Kiểm tra các trường bắt buộc cho university.student
@@ -109,14 +108,14 @@ class University(models.Model):
                     
                 # Tạo dữ liệu cho model intern.management
                 intern_vals = {
-                    'name': str(name).strip(),
-                    'age': int(age) if isinstance(age, (int, float)) else 20,  # Mặc định 20 nếu không có
+                    'name': name,  # Đã sửa: Giữ nguyên giá trị gốc, không strip để giữ dấu tiếng Việt
+                    'birth_date': birth_date if birth_date else date(date.today().year - 20, 1, 1),
                     'email': str(email).strip(),
-                    'address': str(address).strip() if address else False,
+                    'address': address if address else False,  # Đã sửa: Không ép kiểu về str để giữ dấu
                     'phone': str(phone).strip(),
                     'gender': gender if gender in ['male', 'female'] else 'male',
-                    'major': str(major).strip(),
-                    'skills': str(skills).strip(),
+                    'major': major,  # Đã sửa: Không ép kiểu về str để giữ dấu
+                    'skills': skills,  # Đã sửa: Không ép kiểu về str để giữ dấu
                     'university_id': self.id,
                     'intern_status': 'pending',
                     # CV và avatar để trống, cần cập nhật sau
@@ -129,13 +128,16 @@ class University(models.Model):
             if intern_vals_list:
                 self.env['intern.management'].create(intern_vals_list)
                 _logger.info(f"Đã import thành công {len(intern_vals_list)} bản ghi vào model intern.management")
+                # Chỉ chuyển trạng thái khi đã tạo được ít nhất một bản ghi
+                self.state = 'confirmed'
+            else:
+                # Không thể tạo bản ghi nào, báo lỗi và không chuyển trạng thái
+                raise UserError(_('Không thể tạo bản ghi nào từ file Excel. Vui lòng kiểm tra dữ liệu và thử lại.'))
                 
         except ImportError:
             raise UserError(_('Không thể import thư viện openpyxl. Vui lòng cài đặt thư viện này để đọc file Excel định dạng .xlsx'))
         except Exception as e:
             raise UserError(_('Lỗi khi đọc file Excel: %s') % str(e))
-        
-        self.state = 'confirmed'
 
     def action_done(self):
         self.state = 'done'
