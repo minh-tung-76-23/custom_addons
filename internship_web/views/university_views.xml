@@ -34,7 +34,7 @@
 
                                     </p>
 
-                                    <p class="card-text">Số Sinh Viên: <t
+                                    <p class="card-text">Số Lượng Sinh Viên: <t
                                             t-esc="university.student_count" /></p>
 
                                     <a t-att-href="'/intern-portal/university/%s' % university.id"
@@ -198,8 +198,5 @@
         </t>
 
     </template>
-
-
-    <!-- Tương tự tạo thêm các template khác cho công ty và thực tập sinh -->
 
 </odoo>
