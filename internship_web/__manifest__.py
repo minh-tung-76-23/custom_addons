@@ -18,8 +18,11 @@
     'data': [
         'views/home_views.xml',
         'views/intern_views.xml',
+        'views/intern_new_views.xml',
         'views/intern_details_views.xml',
         'views/university_views.xml',
+        'views/university_details_views.xml',
+        'views/university_add_views.xml',
         'views/company_views.xml',
         'views/website_menu.xml',
         # 'security/ir.model.access.csv', 

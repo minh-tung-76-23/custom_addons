@@ -60,7 +60,7 @@
 
     <!-- Mẫu Chi Tiết Trường Đại Học -->
 
-    <template id="university_detail" name="Chi Tiết Trường Đại Học">
+    <!-- <template id="university_detail" name="Chi Tiết Trường Đại Học">
 
         <t t-call="website.layout">
 
@@ -198,6 +198,6 @@
 
         </t>
 
-    </template>
+    </template> -->
 
 </odoo>
