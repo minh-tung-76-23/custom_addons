@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- Mẫu Trang Chủ Cổng Thông Tin -->
+
+    <template id="portal_home" name="Trang Chủ Cổng Thông Tin Thực Tập">
+
+        <t t-call="website.layout">
+
+            <div class="container">
+
+                <div class="jumbotron mt32">
+
+                    <h1>Cổng Quản Lý Thực Tập</h1>
+
+                    <p class="lead">Chào mừng đến với cổng thông tin thực tập nơi các trường đại
+                        học,
+
+                        công ty và thực tập sinh có thể hợp tác.</p>
+
+                </div>
+
+
+                <div class="row mt32">
+
+                    <div class="col-md-4">
+
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">Trường Đại Học</h5>
+
+                                <p class="card-text">Duyệt qua danh sách các trường đối tác của
+                                    chúng tôi.</p>
+
+                                <a href="/intern-portal/universities" class="btn btn-primary">Xem
+                                    Trường Đại Học</a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">Công Ty</h5>
+
+                                <p class="card-text">Khám phá các công ty đang cung cấp cơ hội thực
+                                    tập.</p>
+
+                                <a href="/intern-portal/companies" class="btn btn-primary">Xem
+
+                                    Công Ty</a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">Thực Tập Sinh</h5>
+
+                                <p class="card-text">Xem danh sách các thực tập sinh đang được hợp
+                                    tác trên hệ thống.</p>
+
+                                <a href="/intern-portal/interns" class="btn btn-primary">Xem
+
+                                    Thực Tập Sinh</a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

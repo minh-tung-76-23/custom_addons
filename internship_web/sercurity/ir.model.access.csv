@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_university_university_portal,university.university portal,university_management.model_university_university,base.group_portal,1,0,0,0
+access_company_management_portal,company.management portal,company_management.model_company_management,base.group_portal,1,0,0,0
+access_intern_management_portal,intern.management portal,intern_management.model_intern_management,base.group_portal,1,0,0,0
