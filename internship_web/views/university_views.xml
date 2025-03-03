@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!-- Mẫu Danh Sách Trường Đại Học -->
+
+    <template id="university_list" name="Danh Sách Trường Đại Học">
+
+        <t t-call="website.layout">
+
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- Hiển thị số lượng thực tập sinh -->
+                    <h1 class="mt32 mb32">Danh Sách Các Trường Đối Tác</h1>
+                    <!-- Nút thêm thực tập sinh mới -->
+                    <a href="/intern-portal/university/new" class="btn btn-success btn-lg">
+                        <i class="fa fa-plus"></i> Thêm mới </a>
+                </div>
+
+                <div class="row">
+
+                    <t t-foreach="universities" t-as="university">
+
+                        <div class="col-md-4 mb32">
+
+                            <div class="card">
+
+                                <div class="card-body">
+
+                                    <h5 class="card-title">
+
+                                        <t t-esc="university.name" />
+
+                                    </h5>
+
+                                    <p class="card-text">
+
+                                        <t t-esc="university.address" />
+
+                                    </p>
+
+                                    <p class="card-text">Số Lượng Sinh Viên: <t
+                                            t-esc="university.student_count" /></p>
+
+                                    <a t-att-href="'/intern-portal/university/%s' % university.id"
+                                        class="btn btn-info">Xem Chi Tiết</a>
+                                    <a
+                                        t-att-href="'/intern-portal/university/edit/%s' % university.id"
+                                        class="btn btn-warning">Chỉnh Sửa</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </t>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+
+    <!-- Mẫu Chi Tiết Trường Đại Học -->
+
+    <template id="university_detail" name="Chi Tiết Trường Đại Học">
+
+        <t t-call="website.layout">
+
+            <div class="container">
+
+                <h1 class="mt32 mb32">
+
+                    <t t-esc="university.name" />
+
+                </h1>
+
+
+                <div class="card mb32">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">Thông Tin Chi Tiết</h5>
+
+                        <p class="card-text">
+
+                            <strong>Địa Chỉ:</strong>
+
+                            <t t-esc="university.address" />
+
+                        </p>
+
+                        <p class="card-text">
+
+                            <strong>Trạng Thái:</strong>
+
+                            <t
+                                t-esc="dict(university._fields['state'].selection).get(university.state)" />
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <h5>Sinh Viên (<t t-esc="university.student_count" />)</h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-striped">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Họ và Tên</th>
+
+                                        <th>Email</th>
+
+                                        <th>Số Điện Thoại</th>
+
+                                        <th>Ngành Học</th>
+
+                                        <th>Trạng Thái</th>
+
+                                        <th>Hành Động</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <t t-foreach="university.student_ids" t-as="student">
+
+                                        <tr>
+
+                                            <td>
+
+                                                <t t-esc="student.name" />
+
+                                            </td>
+
+                                            <td>
+
+                                                <t t-esc="student.email" />
+
+                                            </td>
+
+                                            <td>
+
+                                                <t t-esc="student.phone" />
+
+                                            </td>
+
+                                            <td>
+
+                                                <t t-esc="student.major" />
+
+                                            </td>
+
+                                            <td>
+
+                                                <t
+                                                    t-esc="dict(student._fields['intern_status'].selection).get(student.intern_status)" />
+
+                                            </td>
+
+                                            <td>
+
+                                                <a
+                                                    t-att-href="'/intern-portal/intern/%s' % student.id"
+                                                    class="btn btn-sm btn-info"><i
+                                                        class="fa fa-edit"></i> Sửa</a>
+
+                                                <a
+                                                    t-att-href="'/intern-portal/intern/delete/%s' % student.id"
+                                                    class="btn btn-sm btn-secondary"><i
+                                                        class="fa fa-trash pr-1"></i>Xóa</a>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </t>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 import base64
 import tempfile
 import logging
+import requests
+import os
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import openpyxl
@@ -38,6 +39,58 @@ class University(models.Model):
         for record in self:
             record.student_count = len(record.student_ids)
     
+    def _download_and_encode_file(self, file_url):
+        """
+        Tải file từ URL và mã hóa thành base64
+        """
+        try:
+            # Xử lý URL Google Drive
+            if 'drive.google.com' in file_url:
+                # Chuyển URL Drive thành URL tải xuống trực tiếp
+                file_id = None
+                if '/file/d/' in file_url:
+                    file_id = file_url.split('/file/d/')[1].split('/')[0]
+                elif 'id=' in file_url:
+                    file_id = file_url.split('id=')[1].split('&')[0]
+                
+                if not file_id:
+                    _logger.warning(f"Không thể trích xuất ID từ URL Google Drive: {file_url}")
+                    return False
+                
+                direct_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+                file_url = direct_url
+            
+            # Tải file
+            response = requests.get(file_url, timeout=10)
+            if response.status_code != 200:
+                _logger.warning(f"Không thể tải file từ {file_url}, mã trạng thái: {response.status_code}")
+                return False
+            
+            # Mã hóa nội dung file thành base64
+            file_content = response.content
+            encoded_content = base64.b64encode(file_content)
+            return encoded_content
+        except Exception as e:
+            _logger.error(f"Lỗi khi tải file từ {file_url}: {str(e)}")
+            return False
+    
+    def _process_local_file(self, file_path):
+        """
+        Đọc file từ đường dẫn cục bộ và mã hóa thành base64
+        """
+        try:
+            if not os.path.exists(file_path):
+                _logger.warning(f"File không tồn tại: {file_path}")
+                return False
+            
+            with open(file_path, 'rb') as file:
+                file_content = file.read()
+                encoded_content = base64.b64encode(file_content)
+                return encoded_content
+        except Exception as e:
+            _logger.error(f"Lỗi khi đọc file từ {file_path}: {str(e)}")
+            return False
+    
     def action_confirm(self):
         self.ensure_one()
         if not self.student_list:
@@ -59,7 +112,7 @@ class University(models.Model):
             sheet = workbook.active
             
             # Xác định cấu trúc file Excel (giả định các cột theo thứ tự)
-            # Mã sinh viên, Họ tên, Ngày sinh, Giới tính, Email, SĐT, Địa chỉ, Tuổi, Ngành học, Kỹ năng
+            # Mã sinh viên, Họ tên, Ngày sinh, Giới tính, Email, SĐT, Địa chỉ, Tuổi, Ngành học, Kỹ năng, CV URL
             intern_vals_list = []
             
             # Bỏ qua dòng header
@@ -77,8 +130,11 @@ class University(models.Model):
                 # Lấy giá trị các ô bổ sung cho model intern.management
                 major = row[7].value if len(row) > 7 else ''
                 skills = row[8].value if len(row) > 8 else ''
-                # Các trường CV và avatar sẽ để trống vì cần là Binary và không thể lấy từ file Excel
-                                
+                
+                # Lấy URL CV từ cột thứ 10 (index 9)
+                cv_url = row[9].value if len(row) > 9 and row[9].value else False
+                cv_binary = False
+                
                 # Kiểm tra các trường bắt buộc cho university.student
                 if not student_id or not name:
                     _logger.warning(f"Bỏ qua dòng {row_idx + 1} do thiếu thông tin bắt buộc")
@@ -105,21 +161,33 @@ class University(models.Model):
                 if not name or not email or not phone or not major or not skills:
                     _logger.warning(f"Không tạo bản ghi intern cho dòng {row_idx + 1} do thiếu thông tin bắt buộc")
                     continue
+                
+                # Xử lý URL CV
+                if cv_url:
+                    if cv_url.startswith(('http://', 'https://')):
+                        # Nếu là URL từ internet (Google Drive, etc.)
+                        cv_binary = self._download_and_encode_file(cv_url)
+                    elif os.path.exists(cv_url):
+                        # Nếu là đường dẫn file cục bộ
+                        cv_binary = self._process_local_file(cv_url)
                     
+                    if not cv_binary:
+                        _logger.warning(f"Không thể tải hoặc xử lý CV từ {cv_url} ở dòng {row_idx + 1}")
+                        # Vẫn tiếp tục tạo record nhưng không có CV
+                        
                 # Tạo dữ liệu cho model intern.management
                 intern_vals = {
-                    'name': name,  # Đã sửa: Giữ nguyên giá trị gốc, không strip để giữ dấu tiếng Việt
+                    'name': name,
                     'birth_date': birth_date if birth_date else date(date.today().year - 20, 1, 1),
                     'email': str(email).strip(),
-                    'address': address if address else False,  # Đã sửa: Không ép kiểu về str để giữ dấu
+                    'address': address if address else False,  
                     'phone': str(phone).strip(),
                     'gender': gender if gender in ['male', 'female'] else 'male',
-                    'major': major,  # Đã sửa: Không ép kiểu về str để giữ dấu
-                    'skills': skills,  # Đã sửa: Không ép kiểu về str để giữ dấu
+                    'major': major,  
+                    'skills': skills,  
                     'university_id': self.id,
                     'intern_status': 'pending',
-                    # CV và avatar để trống, cần cập nhật sau
-                    'cv': False,
+                    'cv': cv_binary,  # Thêm CV đã tải và mã hóa
                     'avatar': False
                 }
                 intern_vals_list.append(intern_vals)

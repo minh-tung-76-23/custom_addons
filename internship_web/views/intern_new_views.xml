@@ -1,0 +1,148 @@
+<odoo>
+    <template id="intern_new_template" name="Thêm Thực Tập Sinh Mới">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <!-- Tiêu đề -->
+                <h1 class="text-center mb-4">Thêm Thực Tập Sinh Mới</h1>
+
+                <!-- Form thêm mới thực tập sinh -->
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fa fa-user-circle px-3"></i> Thêm Thực Tập Sinh </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Form động để thêm thông tin -->
+                        <form t-att-action="'/intern-portal/intern/create'" method="post"
+                            enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token"
+                                t-att-value="request.csrf_token()" />
+                            <!-- Thông tin chi tiết -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name"><i class="fa fa-user px-3"></i>Họ và Tên:</label>
+                                        <input type="text" class="form-control" id="name"
+                                            name="name"
+                                            required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email"><i class="fa fa-envelope px-3"></i>Email:</label>
+                                        <input type="email" class="form-control" id="email"
+                                            name="email"
+                                            required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone"><i class="fa fa-phone px-3"></i>Số Điện
+                                            Thoại:</label>
+                                        <input type="text" class="form-control" id="phone"
+                                            name="phone"
+                                            required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="birth_date"><i class="fa fa-calendar px-3"></i>Ngày
+                                            Sinh:</label>
+                                        <input type="date" class="form-control" id="birth_date"
+                                            name="birth_date" required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address"><i class="fa fa-map-marker px-3"></i>Địa
+                                            Chỉ:</label>
+                                        <textarea class="form-control" id="address" name="address"
+                                            required="required"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender"><i class="fa fa-venus-mars px-3"></i>Giới
+                                            Tính:</label>
+                                        <select class="form-control" id="gender" name="gender"
+                                            required="required">
+                                            <t
+                                                t-foreach="request.env['intern.management']._fields['gender'].selection"
+                                                t-as="option">
+                                                <option t-att-value="option[0]">
+                                                    <t t-esc="option[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="major"><i class="fa fa-graduation-cap px-3"></i>Ngành
+                                            Học:</label>
+                                        <input type="text" class="form-control" id="major"
+                                            name="major"
+                                            required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="skills"><i class="fa fa-code px-3"></i>Kỹ Năng:</label>
+                                        <textarea class="form-control" id="skills" name="skills"
+                                            required="required"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intern_status"><i class="fa fa-tasks px-3"></i>Trạng
+                                            Thái:</label>
+                                        <select class="form-control" id="intern_status"
+                                            name="intern_status" required="required">
+                                            <t
+                                                t-foreach="request.env['intern.management']._fields['intern_status'].selection"
+                                                t-as="option">
+                                                <option t-att-value="option[0]">
+                                                    <t t-esc="option[1]" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="university_id"><i class="fa fa-university px-3"></i>Trường
+                                            Đại Học:</label>
+                                        <select class="form-control" id="university_id"
+                                            name="university_id" required="required">
+                                            <t
+                                                t-foreach="request.env['university.university'].sudo().search([])"
+                                                t-as="univ">
+                                                <option t-att-value="univ.id">
+                                                    <t t-esc="univ.name" />
+                                                </option>
+
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ảnh đại diện và CV ngang hàng -->
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="avatar"><i class="fa fa-image px-3"></i>Ảnh Đại
+                                            Diện:</label>
+                                        <input type="file" class="form-control-file" id="avatar"
+                                            name="avatar" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cv"><i class="fa fa-file-pdf px-3"></i>CV:</label>
+                                        <input type="file" class="form-control-file" id="cv"
+                                            name="cv" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nút lưu và hủy -->
+                            <div class="row mt-4">
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" class="btn btn-primary px-3">
+                                        <i class="fa fa-save px-2"></i>Lưu </button>
+                                    <a href="/intern-portal/interns" class="btn btn-secondary px-3">
+                                        <i class="fa fa-times px-2"></i>Hủy </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

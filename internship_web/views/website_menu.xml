@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="menu_intern_portal" model="website.menu">
+        <field name="name">Intern Portal</field>
+        <field name="url">/intern-portal</field>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="sequence" type="int">50</field>
+    </record>
+
+    <record id="menu_universities" model="website.menu">
+        <field name="name">Universities</field>
+        <field name="url">/intern-portal/universities</field>
+        <field name="parent_id" ref="menu_intern_portal" />
+        <field name="sequence" type="int">10</field>
+    </record>
+
+    <record id="menu_companies" model="website.menu">
+        <field name="name">Companies</field>
+        <field name="url">/intern-portal/companies</field>
+        <field name="parent_id" ref="menu_intern_portal" />
+        <field name="sequence" type="int">20</field>
+    </record>
+
+    <record id="menu_interns" model="website.menu">
+        <field name="name">Interns</field>
+        <field name="url">/intern-portal/interns</field>
+        <field name="parent_id" ref="menu_intern_portal" />
+        <field name="sequence" type="int">30</field>
+    </record>
+</odoo>

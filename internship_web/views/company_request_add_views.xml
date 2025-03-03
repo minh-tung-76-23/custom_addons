@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form Thêm Yêu Cầu -->
+    <template id="add_request_template" name="Add Request Form">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <h1>Thêm Vị Trí Mới</h1>
+                <form t-attf-action="/company/{{ company.id }}/submit-request" method="post">
+                    <!-- Tên yêu cầu -->
+                    <div class="form-group mb-3">
+                        <label for="name">Vị trí</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                            required="required" />
+                    </div>
+
+                    <!-- Số lượng thực tập sinh -->
+                    <div class="form-group mb-3">
+                        <label for="quantity_intern">Số lượng thực tập sinh</label>
+                        <input type="number" class="form-control" id="quantity_intern"
+                            name="quantity_intern" required="required" />
+                    </div>
+
+                    <!-- Kĩ năng yêu cầu -->
+                    <div class="form-group mb-3">
+                        <label for="request_skills">Kĩ năng yêu cầu</label>
+                        <textarea class="form-control" id="request_skills" name="request_skills"
+                            rows="3"></textarea>
+                    </div>
+
+                    <!-- Yêu cầu công việc -->
+                    <div class="form-group mb-3">
+                        <label for="request_details">Yêu cầu công việc</label>
+                        <textarea class="form-control" id="request_details" name="request_details"
+                            rows="3"></textarea>
+                    </div>
+
+                    <!-- Mô tả công việc -->
+                    <div class="form-group mb-3">
+                        <label for="job_description">Mô tả công việc</label>
+                        <textarea class="form-control" id="job_description" name="job_description"
+                            rows="3"></textarea>
+                    </div>
+
+                    <!-- Quyền lợi -->
+                    <div class="form-group mb-3">
+                        <label for="interest">Quyền lợi</label>
+                        <textarea class="form-control" id="interest" name="interest" rows="3"></textarea>
+                    </div>
+
+                    <!-- Thời gian làm việc -->
+                    <div class="form-group mb-3">
+                        <label for="work_time">Thời gian làm việc</label>
+                        <textarea class="form-control" id="work_time" name="work_time" rows="3"></textarea>
+                    </div>
+
+                    <!-- Ghi chú -->
+                    <div class="form-group mb-3">
+                        <label for="note">Ghi chú</label>
+                        <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+                    </div>
+
+                    <!-- Nút Submit -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Thêm vị trí</button>
+                        <a t-attf-href="/company/{{ company.id }}" class="btn btn-secondary">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

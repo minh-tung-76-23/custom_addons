@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Mẫu Chi Tiết Công Ty -->
+    <template id="company_details_template" name="Company Details">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <!-- Thông tin công ty -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="card-title mb-0">
+                            <t t-esc="company.name" />
+                        </h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">
+                            <strong>Giám đốc:</strong>
+                            <t t-esc="company.manager" />
+                        </p>
+                        <p class="mb-2">
+                            <strong>Địa chỉ:</strong>
+                            <t t-esc="company.address" />
+                        </p>
+                        <p class="mb-2">
+                            <strong>Thông tin doanh nghiệp:</strong>
+                            <t t-esc="company.business_info" />
+                        </p>
+                        <p class="mb-2">
+                            <strong>Người tuyển dụng:</strong>
+                            <t t-esc="company.employer" />
+                        </p>
+                        <p class="mb-0">
+                            <strong>Thông tin liên hệ:</strong>
+                            <t t-esc="company.contact" />
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Danh sách yêu cầu -->
+                <h2 class="mb-4 text-center">Yêu cầu của doanh nghiệp</h2>
+                <t t-if="requests">
+                    <div class="list-group">
+                        <t t-foreach="requests" t-as="req">
+                            <div class="list-group-item mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-0">
+                                        <t t-esc="req.name" />
+                                    </h4>
+                                    <span class="badge bg-secondary">
+                                        <t t-esc="req.request_state" />
+                                    </span>
+                                </div>
+                                <hr class="my-2" />
+                                <p class="mb-1">
+                                    <strong>Số lượng thực tập sinh:</strong>
+                                    <t t-esc="req.quantity_intern" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Kĩ năng yêu cầu:</strong>
+                                    <t t-esc="req.request_skills" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Yêu cầu công việc:</strong>
+                                    <t t-esc="req.request_details" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Mô tả công việc:</strong>
+                                    <t t-esc="req.job_description" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Quyền lợi:</strong>
+                                    <t t-esc="req.interest" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Thời gian làm việc:</strong>
+                                    <t t-esc="req.work_time" />
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Ghi chú:</strong>
+                                    <t t-esc="req.note" />
+                                </p>
+
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="alert alert-info text-center">
+                        Không có yêu cầu nào được tìm thấy.
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>
