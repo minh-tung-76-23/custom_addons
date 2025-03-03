@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="company_new_template" name="Thêm Công Ty Mới">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <!-- Tiêu đề -->
+                <h1 class="text-center mb-4">Thêm Công Ty Mới</h1>
+
+                <!-- Form thêm mới công ty -->
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fa fa-building px-3"></i> Thêm Doanh Nghiệp </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Form động để thêm thông tin -->
+                        <form t-att-action="'/company/create'" method="post"
+                            enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token"
+                                t-att-value="request.csrf_token()" />
+                            <!-- Thông tin chi tiết -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Tên Doanh Nghiệp:</label>
+                                        <input type="text" class="form-control" id="name"
+                                            name="name" required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="manager">Giám Đốc:</label>
+                                        <input type="text" class="form-control" id="manager"
+                                            name="manager" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Địa Chỉ:</label>
+                                        <textarea class="form-control" id="address" name="address"
+                                            required="required"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="business_info">Thông Tin Doanh Nghiệp:</label>
+                                        <textarea class="form-control" id="business_info"
+                                            name="business_info"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="employer">Người Tuyển Dụng:</label>
+                                        <input type="text" class="form-control" id="employer"
+                                            name="employer" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact">Thông Tin Liên Hệ:</label>
+                                        <input type="text" class="form-control" id="contact"
+                                            name="contact" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nút lưu và hủy -->
+                            <div class="row mt-4">
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" class="btn btn-primary px-3">
+                                        <i class="fa fa-save px-2"></i>Lưu </button>
+                                    <a t-att-href="'/intern-portal/companies'"
+                                        class="btn btn-secondary px-3">
+                                        <i class="fa fa-times px-2"></i>Hủy </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

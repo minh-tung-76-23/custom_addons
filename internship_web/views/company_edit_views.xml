@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template Form Chỉnh Sửa Công Ty -->
+    <template id="company_edit_template" name="Chỉnh Sửa Công Ty">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <h1 class="text-center mb-4">Chỉnh Sửa Công Ty</h1>
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fa fa-building px-3"></i> Chỉnh Sửa Công Ty </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Form động để chỉnh sửa thông tin -->
+                        <form t-att-action="'/company/update/%s' % company.id" method="post"
+                            enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token"
+                                t-att-value="request.csrf_token()" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Tên Công Ty:</label>
+                                        <input type="text" class="form-control" id="name"
+                                            name="name" t-att-value="company.name"
+                                            required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="manager">Giám Đốc:</label>
+                                        <input type="text" class="form-control" id="manager"
+                                            name="manager" t-att-value="company.manager" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Địa Chỉ:</label>
+                                        <textarea class="form-control" id="address" name="address"
+                                            required="required">
+                                            <t t-esc="company.address" />
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="business_info">Thông Tin Doanh Nghiệp:</label>
+                                        <textarea class="form-control" id="business_info"
+                                            name="business_info">
+                                            <t t-esc="company.business_info" />
+                                        </textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="employer">Người Tuyển Dụng:</label>
+                                        <input type="text" class="form-control" id="employer"
+                                            name="employer" t-att-value="company.employer" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact">Thông Tin Liên Hệ:</label>
+                                        <input type="text" class="form-control" id="contact"
+                                            name="contact" t-att-value="company.contact" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" class="btn btn-primary px-3">
+                                        <i class="fa fa-save px-2"></i>Lưu </button>
+                                    <a t-att-href="'/intern-portal/companies'"
+                                        class="btn btn-secondary px-3">
+                                        <i class="fa fa-times px-2"></i>Hủy </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

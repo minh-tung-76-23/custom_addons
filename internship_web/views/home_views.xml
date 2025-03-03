@@ -49,14 +49,14 @@
 
                             <div class="card-body">
 
-                                <h5 class="card-title">Công Ty</h5>
+                                <h5 class="card-title">Doanh Nghiệp</h5>
 
-                                <p class="card-text">Khám phá các công ty đang cung cấp cơ hội thực
-                                    tập.</p>
+                                <p class="card-text">Khám phá các doanh nghiệp đang cung cấp cơ hội
+                                    thực tập.</p>
 
                                 <a href="/intern-portal/companies" class="btn btn-primary">Xem
 
-                                    Công Ty</a>
+                                    Doanh Nghiệp</a>
 
                             </div>
 

@@ -12,7 +12,7 @@ class Company(models.Model):
     contact = fields.Char(string='Thông tin liên hệ')
        # One2many relationship to 'request'
     request_ids = fields.One2many(
-        comodel_name='company.request',  # Trỏ đến mô hình `request`
-        inverse_name='company_id',  # Tên trường Many2one trong mô hình `request`
+        comodel_name='company.request', 
+        inverse_name='company_id',  
         string='Requests'
     )

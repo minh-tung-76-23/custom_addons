@@ -54,7 +54,7 @@ class InternWebController(http.Controller):
             except Exception as e:
                 # Xử lý lỗi nếu có
                 _logger.error(f"Lỗi khi import sinh viên: {str(e)}")
-                raise UserError(_('Lỗi khi import sinh viên: %s') % str(e))
+                raise UserError(('Lỗi khi import sinh viên: %s') % str(e))
 
         # Chuyển hướng về danh sách trường đại học
         return request.redirect('/intern-portal/universities')
@@ -110,7 +110,138 @@ class InternWebController(http.Controller):
         return request.render('internship_web.company_list', {
             'companies': companies
         })
+    
+    @http.route('/company/<int:company_id>', type='http', auth="public", website=True)
+    def company_details(self, company_id, **kwargs):
+        company = request.env['company.management'].browse(company_id)
+        if not company.exists():
+            return request.not_found()
+        
+        requests = request.env['company.request'].search([('company_id', '=', company_id)])
+        return request.render('internship_web.company_details_template', {
+            'company': company,
+            'requests': requests,
+        })
 
+    @http.route('/company/new', type='http', auth='public', website=True)
+    def company_new(self, **kw):
+        return request.render('internship_web.company_new_template', {})
+    
+    @http.route('/company/create', type='http', auth='public', website=True, csrf=False)
+    def company_create(self, **post):
+        # Xử lý dữ liệu form submit
+        if post:
+            request.env['company.management'].sudo().create({
+                'name': post.get('name'),
+                'manager': post.get('manager'),
+                'address': post.get('address'),
+                'business_info': post.get('business_info'),
+                'employer': post.get('employer'),
+                'contact': post.get('contact'),
+            })
+        return request.redirect('/intern-portal/companies')
+
+    @http.route('/company/edit/<int:company_id>', type='http', auth='public', website=True)
+    def company_edit(self, company_id, **kw):
+        company = request.env['company.management'].sudo().browse(company_id)
+        return request.render('internship_web.company_edit_template', {
+            'company': company
+        })
+    
+    @http.route('/company/update/<int:company_id>', type='http', auth='public', website=True, csrf=False)
+    def company_update(self, company_id, **post):
+        company = request.env['company.management'].sudo().browse(company_id)
+        if company:
+            company.write({
+                'name': post.get('name'),
+                'manager': post.get('manager'),
+                'address': post.get('address'),
+                'business_info': post.get('business_info'),
+                'employer': post.get('employer'),
+                'contact': post.get('contact'),
+            })
+            return request.redirect('/intern-portal/companies')
+
+# -----------------Vị trí trong doanh nghiệp
+    @http.route('/company/<int:company_id>/add-request', type='http', auth="user", website=True)
+    def add_request(self, company_id, **kwargs):
+        # Lấy thông tin công ty
+        company = request.env['company.management'].browse(company_id)
+        if not company.exists():
+            return request.not_found()
+
+        # Hiển thị form thêm yêu cầu
+        return request.render('internship_web.add_request_template', {
+            'company': company,
+        })
+
+    @http.route('/company/<int:company_id>/submit-request', type='http', auth="user", website=True, csrf=False)
+    def submit_request(self, company_id, **post):
+        # Lấy thông tin công ty
+        company = request.env['company.management'].browse(company_id)
+        if not company.exists():
+            return request.not_found()
+
+        # Tạo yêu cầu mới từ dữ liệu form
+        request.env['company.request'].create({
+            'name': post.get('name'),
+            'quantity_intern': int(post.get('quantity_intern')),
+            'request_skills': post.get('request_skills'),
+            'request_details': post.get('request_details'),
+            'job_description': post.get('job_description'),
+            'interest': post.get('interest'),
+            'work_time': post.get('work_time'),
+            'note': post.get('note'),
+            'company_id': company.id,
+        })
+
+        # Chuyển hướng về trang chi tiết công ty
+        return request.redirect(f'/company/{company.id}')
+    
+    # Hiển thị form sửa yêu cầu
+    @http.route('/company/<int:company_id>/edit-request/<int:request_id>', type='http', auth="user", website=True)
+    def edit_request(self, company_id, request_id, **kwargs):
+        # Lấy thông tin công ty và yêu cầu
+        company = request.env['company.management'].browse(company_id)
+        request_obj = request.env['company.request'].browse(request_id)
+        if not company.exists() or not request_obj.exists():
+            return request.not_found()
+
+        # Hiển thị form sửa yêu cầu
+        return request.render('internship_web.edit_request_template', {
+            'company': company,
+            'req': request_obj,
+        })
+
+    # Xử lý dữ liệu khi submit form sửa
+    @http.route('/company/<int:company_id>/update-request/<int:request_id>', type='http', auth="user", website=True, csrf=False)
+    def update_request(self, company_id, request_id, **post):
+        company = request.env['company.management'].browse(company_id)
+        request_obj = request.env['company.request'].browse(request_id)
+        if not company.exists() or not request_obj.exists():
+            return request.not_found()
+        request_obj.write({
+            'name': post.get('name'),
+            'quantity_intern': int(post.get('quantity_intern')),
+            'request_skills': post.get('request_skills'),
+            'request_details': post.get('request_details'),
+            'job_description': post.get('job_description'),
+            'interest': post.get('interest'),
+            'work_time': post.get('work_time'),
+            'note': post.get('note'),
+            'request_state': post.get('request_state'),  
+        })
+        return request.redirect(f'/company/{company.id}')
+
+    @http.route('/company/<int:company_id>/delete-request/<int:request_id>', type='http', auth="user", website=True, csrf=False)
+    def delete_request(self, company_id, request_id, **kwargs):
+        company = request.env['company.management'].browse(company_id)
+        request_obj = request.env['company.request'].browse(request_id)
+        if not company.exists() or not request_obj.exists():
+            return request.not_found()
+        request_obj.unlink()
+        return request.redirect(f'/company/{company.id}')
+        
     # -----------------------------------Thực tập sinh--------------------------------------------------------------------------------------
     @http.route('/intern-portal/interns', type='http', auth='public', website=True)
     def intern_list(self, **kw):

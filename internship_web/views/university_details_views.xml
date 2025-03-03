@@ -1,88 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="university_edit_template" name="Chỉnh Sửa Trường Đại Học">
+    <!-- Mẫu Chi Tiết Công Ty -->
+    <template id="company_details_template" name="Company Details">
         <t t-call="website.layout">
-            <div class="container mt-5">
-                <!-- Tiêu đề -->
-                <h1 class="text-center mb-4">Chỉnh Sửa Trường Đại Học</h1>
-
-                <!-- Form chỉnh sửa trường đại học -->
-                <div class="card shadow-lg">
+            <div class="container mt-4">
+                <!-- Thông tin công ty -->
+                <div class="card mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="card-title mb-0">
-                            <i class="fa fa-university px-3"></i> Chỉnh Sửa Trường Đại Học </h5>
+                        <h1 class="card-title mb-0">
+                            <t t-esc="company.name" />
+                        </h1>
                     </div>
                     <div class="card-body">
-                        <!-- Form động để chỉnh sửa thông tin -->
-                        <form t-att-action="'/intern-portal/university/update/%s' % university.id"
-                            method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token"
-                                t-att-value="request.csrf_token()" />
-                            <!-- Thông tin chi tiết -->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Tên Trường:</label>
-                                        <input type="text" class="form-control" id="name"
-                                            name="name"
-                                            t-att-value="university.name" required="required" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="address">Địa Chỉ:</label>
-                                        <textarea class="form-control" id="address" name="address"
-                                            required="required">
-                                            <t t-esc="university.address" />
-                                        </textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="student_list">File Danh Sách Sinh Viên:</label>
-                                        <input type="file" class="form-control-file"
-                                            id="student_list"
-                                            name="student_list" />
-                                        <t t-if="university.student_list">
-                                            <p class="text-muted mt-2">File hiện tại: <t
-                                                    t-esc="university.student_filename" /></p>
-                                        </t>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="state">Trạng Thái:</label>
-                                        <select class="form-control" id="state" name="state"
-                                            required="required">
-                                            <t t-foreach="university._fields['state'].selection"
-                                                t-as="option">
-                                                <option t-att-value="option[0]"
-                                                    t-att-selected="university.state == option[0]">
-                                                    <t t-esc="option[1]" />
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Nút lưu và hủy -->
-                            <div class="row mt-4">
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary px-3">
-                                        <i class="fa fa-save px-2"></i>Lưu </button>
-                                    <a href="/intern-portal/universities"
-                                        class="btn btn-secondary px-3">
-                                        <i class="fa fa-times px-2"></i>Hủy </a>
-
-                                    <a
-                                        t-att-href="'/intern-portal/university/delete/%s' % university.id"
-                                        class="btn btn-danger px-3">
-                                        <i class="fa fa-times px-2"></i>Xóa </a>
-
-                                </div>
-                            </div>
-                        </form>
+                        <p class="mb-2">
+                            <strong>Giám đốc:</strong>
+                            <t t-esc="company.manager" />
+                        </p>
+                        <p class="mb-2">
+                            <strong>Địa chỉ:</strong>
+                            <t t-esc="company.address" />
+                        </p>
+                        <p class="mb-2">
+                            <strong>Thông tin doanh nghiệp:</strong>
+                            <t t-esc="company.business_info" />
+                        </p>
+                        <p class="mb-2">
+                            <strong>Người tuyển dụng:</strong>
+                            <t t-esc="company.employer" />
+                        </p>
+                        <p class="mb-0">
+                            <strong>Thông tin liên hệ:</strong>
+                            <t t-esc="company.contact" />
+                        </p>
                     </div>
                 </div>
-            </div>
 
+                <!-- Danh sách yêu cầu -->
+                <h2 class="mb-4 text-center">Yêu cầu của doanh nghiệp</h2>
+                <t t-if="requests">
+                    <div class="list-group">
+                        <t t-foreach="requests" t-as="req">
+                            <div class="list-group-item mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-0">
+                                        <t t-esc="req.name" />
+                                    </h4>
+                                    <span class="badge bg-secondary">
+                                        <t t-esc="req.request_state" />
+                                    </span>
+                                </div>
+                                <hr class="my-2" />
+                                <p class="mb-1">
+                                    <strong>Số lượng thực tập sinh:</strong>
+                                    <t t-esc="req.quantity_intern" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Kĩ năng yêu cầu:</strong>
+                                    <t t-esc="req.request_skills" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Yêu cầu công việc:</strong>
+                                    <t t-esc="req.request_details" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Mô tả công việc:</strong>
+                                    <t t-esc="req.job_description" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Quyền lợi:</strong>
+                                    <t t-esc="req.interest" />
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Thời gian làm việc:</strong>
+                                    <t t-esc="req.work_time" />
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Ghi chú:</strong>
+                                    <t t-esc="req.note" />
+                                </p>
+
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="alert alert-info text-center">
+                        Không có yêu cầu nào được tìm thấy.
+                    </div>
+                </t>
+            </div>
         </t>
     </template>
 </odoo>

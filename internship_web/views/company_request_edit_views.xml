@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form Sửa Yêu Cầu -->
+    <template id="edit_request_template" name="Edit Request Form">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <h1>Sửa Yêu Cầu</h1>
+                <form t-attf-action="/company/{{ company.id }}/update-request/{{ req.id }}"
+                    method="post">
+                    <!-- Tên yêu cầu -->
+                    <div class="form-group mb-3">
+                        <label for="name">Vị trí</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                            t-att-value="req.name" required="required" />
+                    </div>
+
+                    <!-- Số lượng thực tập sinh -->
+                    <div class="form-group mb-3">
+                        <label for="quantity_intern">Số lượng thực tập sinh</label>
+                        <input type="number" class="form-control" id="quantity_intern"
+                            name="quantity_intern" t-att-value="req.quantity_intern"
+                            required="required" />
+                    </div>
+
+                    <!-- Kĩ năng yêu cầu -->
+                    <div class="form-group mb-3">
+                        <label for="request_skills">Kĩ năng yêu cầu</label>
+                        <textarea class="form-control" id="request_skills" name="request_skills"
+                            rows="3" required="required">
+                            <t t-esc="req.request_skills" />
+                        </textarea>
+                    </div>
+
+                    <!-- Yêu cầu công việc -->
+                    <div class="form-group mb-3">
+                        <label for="request_details">Yêu cầu công việc</label>
+                        <textarea class="form-control" id="request_details" name="request_details"
+                            rows="3" required="required">
+                            <t t-esc="req.request_details" />
+                        </textarea>
+                    </div>
+
+                    <!-- Mô tả công việc -->
+                    <div class="form-group mb-3">
+                        <label for="job_description">Mô tả công việc</label>
+                        <textarea class="form-control" id="job_description" name="job_description"
+                            rows="3" required="required">
+                            <t t-esc="req.job_description" />
+                        </textarea>
+                    </div>
+
+                    <!-- Quyền lợi -->
+                    <div class="form-group mb-3">
+                        <label for="interest">Quyền lợi</label>
+                        <textarea class="form-control" id="interest" name="interest" rows="3"
+                            required="required">
+                            <t t-esc="req.interest" />
+                        </textarea>
+                    </div>
+
+                    <!-- Thời gian làm việc -->
+                    <div class="form-group mb-3">
+                        <label for="work_time">Thời gian làm việc</label>
+                        <textarea class="form-control" id="work_time" name="work_time" rows="3">
+                            <t t-esc="req.work_time" />
+                        </textarea>
+                    </div>
+
+                    <!-- Ghi chú -->
+                    <div class="form-group mb-3">
+                        <label for="note">Ghi chú</label>
+                        <textarea class="form-control" id="note" name="note" rows="3">
+                            <t t-esc="req.note" />
+                        </textarea>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="request_state">Trạng thái yêu cầu</label>
+                        <select class="form-control" id="request_state" name="request_state"
+                            required="required">
+                            <t t-foreach="req._fields['request_state'].selection" t-as="state">
+                                <option t-att-value="state[0]"
+                                    t-att-selected="req.request_state == state[0]">
+                                    <t t-esc="state[1]" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+
+                    <!-- Nút Submit -->
+                    <div class="form-group mb-5">
+                        <button type="submit" class="btn btn-primary">Cập Nhật Yêu Cầu</button>
+                        <a t-attf-href="/company/{{ company.id }}" class="btn btn-secondary">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>
