@@ -1,0 +1,13 @@
+<odoo>
+    <data noupdate="1">
+        <record id="cron_update_intern_status" model="ir.cron">
+            <field name="name">Cập nhật trạng thái thực tập sinh</field>
+            <field name="model_id" ref="model_internship_management"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_update_internship_status</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

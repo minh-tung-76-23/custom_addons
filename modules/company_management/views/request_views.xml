@@ -1,0 +1,80 @@
+<odoo>
+    <!-- Search View -->
+    <record id="view_request_search" model="ir.ui.view">
+        <field name="name">company.request.search.module.name</field>
+        <field name="model">company.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Tìm kiếm theo các trường -->
+                <field name="name" />
+                <field name="company_id" />
+                <field name="request_skills" />
+
+                <!-- Thêm các bộ lọc -->
+                <!-- <filter string="Chưa đủ điều kiện" name="request_state"
+                    domain="[('request_state', '=', 'insufficient')]" />
+                <filter string="Đã gửi" name="request_state"
+                    domain="[('request_state', '=', 'submitted')]" />
+                <filter string="Được phê duyệt" name="request_state"
+                    domain="[('request_state', '=', 'approved')]" />
+                <filter string="Bị từ chối" name="request_state"
+                    domain="[('request_state', '=', 'rejected')]" />
+                <filter string="Số lượng thực tập sinh > 1" domain="[('quantity_intern', '>', 1)]" /> -->
+            </search>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_request_tree" model="ir.ui.view">
+        <field name="name">company.request.tree</field>
+        <field name="model">company.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="quantity_intern" />
+                <field name="request_skills" />
+                <field name="request_details" />
+                <field name="request_state" />
+                <field name="company_id" />
+                
+                <button name="action_assign_intern"
+                            string="Giao sinh viên"
+                            type="object"
+                            class="btn-primary"
+                            />
+                <button string="Xoá request" class="btn-secondary" special="cancel"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_request_form" model="ir.ui.view">
+        <field name="name">company.request.form</field>
+        <field name="model">company.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="quantity_intern" />
+                        <field name="request_skills" />
+                        <field name="request_details" />
+                        <field name="job_description" />
+                        <field name="interest" />
+                        <field name="work_time" />
+                        <field name="note" />
+                        <field name="request_state" />
+                        <field name="company_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_company_requests" model="ir.actions.act_window">
+        <field name="name">Yêu cầu của doanh nghiệp</field>
+        <field name="res_model">company.request</field>
+        <field name="view_mode">search,tree,form</field>
+    </record>
+</odoo>

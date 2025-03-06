@@ -1,0 +1,7 @@
+<odoo>
+    <data noupdate="1">
+        <record id="group_company_user" model="res.groups">
+            <field name="name">Company User</field>
+        </record>
+    </data>
+</odoo>

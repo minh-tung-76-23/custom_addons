@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <record id="view_intern_tree" model="ir.ui.view">
+            <field name="name">intern.tree</field>
+            <field name="model">intern.management</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách thực tập sinh" class="custom_tree_view">
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="age"/>
+                    <field name="address"/>
+                    <field name="gender"/>
+                    <field name="major_selection"/>
+                    <field name="skills"/>
+                    <field name="university_selection"/>
+                    <field name="cv"/>
+                    <field name="avatar"/>
+                    <field name="intern_status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_intern_form" model="ir.ui.view">
+            <field name="name">intern.form</field>
+            <field name="model">intern.management</field>
+            <field name="arch" type="xml">
+                <form string="Intern">
+                    <sheet>
+                            <field name="avatar" widget="image" class="oe_avatar"/>
+                            <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name"/>
+                                </h1>
+                            </div>
+                            <group string="Thông tin cá nhân">
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="age"/>
+                                <field name="address"/>
+                                <field name="gender"/>
+                            </group>
+                            <group string="Chi tiết học vấn">
+                                <field name="major_selection"/>
+                                <field name="skills"/>
+                                <field name="university_selection"/>
+                            </group>
+                            <group>
+                            <field name="cv"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="intern_action" model="ir.actions.act_window">
+            <field name="name">Danh sách thực tập sinh</field>
+            <field name="res_model">intern.management</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_intern_management_root" name="Quản lý thực tập sinh" sequence="1"/>
+        <menuitem id="menu_intern_management_views_intern_tree" name="Danh sách thực tập sinh" parent="menu_intern_management_root" action="intern_action" sequence="2"/>
+    </data>
+</odoo>
