@@ -13,7 +13,7 @@ class InternWebController(http.Controller):
         return request.render('internship_web.portal_home', {})
     
 
-    # -------------------------------------Trường đại học--------------------------------------------------------------------------------------
+# -------------------------------------Trường đại học--------------------------------------------------------------------------------------
     @http.route('/intern-portal/universities', type='http', auth='public', website=True)
     def university_list(self, **kw):
         universities = request.env['university.university'].sudo().search([])
@@ -96,7 +96,7 @@ class InternWebController(http.Controller):
         university.unlink()
         return request.redirect('/intern-portal/universities')
 
-    # -------------------------------------Doanh Nghiệp-----------------------------------------------------------------------------------
+# -------------------------------------Doanh Nghiệp-----------------------------------------------------------------------------------
     @http.route('/intern-portal/companies', type='http', auth='public', website=True)
     def company_list(self, **kw):
         companies = request.env['company.management'].sudo().search([])
@@ -325,3 +325,40 @@ class InternWebController(http.Controller):
         return request.redirect(f'/intern-portal/university/{id_university}')
     
 #  ----------------------------------------------------------Quá trình duyệt TTS   
+
+    @http.route('/intern/order/approve/<int:order_id>', type='http', auth="public", website=True)
+    def show_appointment_form(self, order_id, **kwargs):
+        intern_order = request.env['intern.order'].sudo().browse(order_id)
+        if not intern_order.exists():
+            return request.not_found()
+        return request.render('internship_web.appointment_form_template', {
+            'order': intern_order,
+        })
+
+    @http.route('/intern/order/approve/submit', type='http', auth="public", website=True, csrf=False)
+    def submit_appointment_form(self, **post):
+        order_id = int(post.get('order_id'))
+        appointment_schedule = post.get('appointment_schedule')
+        intern_order = request.env['intern.order'].sudo().browse(order_id)
+        if intern_order.exists():
+            intern_order.write({
+                'appointment_schedule': appointment_schedule,
+                'status': 'approved',
+            })
+            return request.render('internship_web.appointment_success_template', {
+                'order': intern_order,
+            })
+        return request.not_found()
+    
+    @http.route('/intern/order/reject/<int:order_id>', type='http', auth="public", website=True)
+    def reject_order_res(self, order_id):
+        """Xử lý yêu cầu từ đường link và cập nhật trạng thái"""
+        order = request.env['intern.order'].sudo().browse(order_id)
+        if order.exists():
+            order.reject_order_convert()  # Gọi phương thức từ đối tượng order
+            # Hiển thị thông báo trên một trang web
+            return request.render('internship_web.reject_order_template', {
+                'message': "Cảm ơn bạn đã phản hồi. Chúng tôi sẽ tìm kiếm ứng viên khác phù hợp!",
+            })
+        else:
+            return request.not_found("Không tìm thấy đơn thực tập.")

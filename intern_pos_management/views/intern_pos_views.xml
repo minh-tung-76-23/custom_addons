@@ -8,10 +8,13 @@
                 <field name="name" />
                 <field name="request_skills" />
                 <field name="quantity_intern" />
+                <field name="sent_quantity" />
                 <field name="request_state" />
                 <field name="company_id" />
+                <!-- Nút "Gửi thực tập sinh" chỉ hiển thị khi request_state = 'insufficient' -->
                 <button name="action_send_interns" string="Gửi thực tập sinh" type="object"
-                    class="btn-primary" />
+                    class="btn-primary"
+                    attrs="{'invisible': [('request_state', '!=', 'insufficient')]}" />
             </tree>
         </field>
     </record>
@@ -23,6 +26,4 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_request_tree" />
     </record>
-
-
 </odoo>

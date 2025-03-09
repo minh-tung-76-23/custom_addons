@@ -1,7 +1,8 @@
 <odoo>
-    <!-- Menu structure -->
-    <menuitem id="menu_hr_root" name="Vị Trí Thực Tập" /> <!-- Parent menu -->
-    <menuitem id="menu_request_root" name="Yêu cầu" parent="menu_hr_root" sequence="10" />
-    <menuitem id="menu_request_tree" name="Danh sách yêu cầu" parent="menu_request_root"
-        action="action_request_tree" sequence="10" />
+    <menuitem id="menu_hr_root" name="Vị Trí Thực Tập" sequence="10" />
+    <menuitem id="menu_request_tree" name="Danh sách vị trí" parent="menu_hr_root"
+        action="action_request_tree" />
+    <menuitem id="menu_intern_order_tree" name="Yêu cầu đã gửi"
+        parent="menu_hr_root"
+        action="action_intern_order_tree" />
 </odoo>

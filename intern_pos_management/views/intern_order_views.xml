@@ -1,0 +1,43 @@
+<odoo>
+    <!-- Tree View cho intern.order -->
+    <record id="view_intern_order_tree" model="ir.ui.view">
+        <field name="name">intern.order.tree</field>
+        <field name="model">intern.order</field>
+        <field name="arch" type="xml">
+            <tree string="Vị trí thực tập">
+                <field name="request_id" />
+                <field name="intern_id" />
+                <field name="company_name" string="Tên công ty" /> <!-- Thêm cột Tên công ty -->
+                <field name="appointment_schedule" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View cho intern.order -->
+    <record id="view_intern_order_form" model="ir.ui.view">
+        <field name="name">intern.order.form</field>
+        <field name="model">intern.order</field>
+        <field name="arch" type="xml">
+            <form string="Vị trí thực tập">
+                <sheet>
+                    <group>
+                        <field name="request_id" />
+                        <field name="intern_id" />
+                        <field name="company_name" string="Tên công ty" />
+                        <field name="appointment_schedule" />
+                        <field name="status" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action để mở danh sách intern.order -->
+    <record id="action_intern_order_tree" model="ir.actions.act_window">
+        <field name="name">Vị trí thực tập</field>
+        <field name="res_model">intern.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_intern_order_tree" />
+    </record>
+</odoo>
