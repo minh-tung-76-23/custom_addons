@@ -6,10 +6,10 @@
     "author": "My Company",
     # "website": "http://www.mycompany.com",
     "category": "Tools",
-    "depend": ['base', 'contacts', 'accounts', 'hr'],
+    "depend": ['base', 'intern_management'],
     "data": [
         # 'security/company_security.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/company_views.xml',
         'views/request_views.xml',
         'views/menu_views.xml',

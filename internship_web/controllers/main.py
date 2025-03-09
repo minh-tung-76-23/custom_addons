@@ -42,9 +42,9 @@ class InternWebController(http.Controller):
         university = request.env['university.university'].sudo().create({
             'name': kw.get('name'),
             'address': kw.get('address'),
-            'student_list': student_list_data,  # Lưu file danh sách sinh viên dưới dạng base64
+            'student_list': student_list_data, 
             'student_filename': student_list_file.filename if student_list_file else False,
-            'state': kw.get('state'),  # Lưu trạng thái
+            'state': kw.get('state'),  
         })
 
         # Nếu trạng thái là "confirmed", thực hiện import sinh viên từ file Excel
@@ -81,9 +81,9 @@ class InternWebController(http.Controller):
         university.write({
             'name': kw.get('name'),
             'address': kw.get('address'),
-            'student_list': student_list_data,  # Lưu file danh sách sinh viên dưới dạng base64
+            'student_list': student_list_data,  
             'student_filename': student_list_file.filename if student_list_file else university.student_filename,
-            'state': kw.get('state'),  # Lưu trạng thái
+            'state': kw.get('state'),  
         })
 
         # Chuyển hướng về danh sách trường đại học
@@ -91,16 +91,9 @@ class InternWebController(http.Controller):
     
     @http.route('/intern-portal/university/delete/<int:university_id>', type='http', auth='public', website=True)
     def university_delete(self, university_id, **kw):
-        # Lấy thông tin trường đại học từ database
         university = request.env['university.university'].sudo().browse(university_id)
-        
-        # Xóa tất cả sinh viên liên quan
         university.student_ids.unlink()
-        
-        # Xóa trường đại học
         university.unlink()
-
-        # Chuyển hướng về danh sách trường đại học
         return request.redirect('/intern-portal/universities')
 
     # -------------------------------------Doanh Nghiệp-----------------------------------------------------------------------------------
@@ -206,8 +199,6 @@ class InternWebController(http.Controller):
         request_obj = request.env['company.request'].browse(request_id)
         if not company.exists() or not request_obj.exists():
             return request.not_found()
-
-        # Hiển thị form sửa yêu cầu
         return request.render('internship_web.edit_request_template', {
             'company': company,
             'req': request_obj,
@@ -257,8 +248,7 @@ class InternWebController(http.Controller):
         })
     
     @http.route('/intern-portal/intern/new', type='http', auth='public', website=True)
-    def intern_new(self, **kw):
-        # Hiển thị form thêm thực tập sinh mới
+    def intern_new(self, **kw):     
         return request.render('internship_web.intern_new_template', {})
     
     @http.route('/intern-portal/intern/create', type='http', auth='public', website=True, methods=['POST'], csrf=False)
@@ -283,11 +273,11 @@ class InternWebController(http.Controller):
             'skills': kw.get('skills'),
             'intern_status': kw.get('intern_status'),
             'university_id': int(kw.get('university_id')),
-            'avatar': avatar_data,  # Lưu ảnh đại diện dưới dạng base64
-            'cv': cv_data,  # Lưu CV dưới dạng base64
+            'avatar': avatar_data,  
+            'cv': cv_data,  
         })
-        # Chuyển hướng về danh sách thực tập sinh
         return request.redirect('/intern-portal/interns')
+    
     @http.route('/intern-portal/intern/<int:intern_id>', type='http', auth='public', website=True)
     def intern_detail(self, intern_id, **kwargs):
         intern = request.env['intern.management'].sudo().browse(intern_id)
@@ -333,3 +323,5 @@ class InternWebController(http.Controller):
             intern.unlink()
         # Chuyển hướng về trang chi tiết trường đại học
         return request.redirect(f'/intern-portal/university/{id_university}')
+    
+#  ----------------------------------------------------------Quá trình duyệt TTS   

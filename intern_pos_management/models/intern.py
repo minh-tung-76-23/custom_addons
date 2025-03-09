@@ -32,48 +32,20 @@ class intern_model(models.Model):
 
     _sql_constraints = [
         ('unique_email', 'UNIQUE(email)', 'Email không được trùng lặp!'),
-        ('unique_phone', 'UNIQUE(phone)', 'Số điện thoại không được trùng lặp!')
+        ('unique_phone', 'UNIQUE(phone)', 'Số điện thoại không được trùng lặp!'),
     ]
     selected = fields.Boolean(string="Chọn", default=False)
-    @api.model
-    def create(self, vals):
-        # required_fields = {
-        #     'name': "Họ và Tên",
-        #     'age': "Tuổi",
-        #     'email': "Email",
-        #     'phone': "Số điện thoại",
-        #     'gender': "Giới tính",
-        #     'major': "Ngành học",
-        #     'skills': "Kỹ năng",
-        #     'cv': "CV"
-        # }
-    
-        # for field, field_string in required_fields.items():
-        #     if field not in vals or vals[field] in [False, '', None]:
-        #         raise ValueError(f"Trường '{field_string}' không được bỏ trống.")
 
-        # if not re.match(r'^[a-zA-Z\s]+$', vals['name']):
-        #     raise ValueError("Trường 'Họ và Tên' phải chứa chỉ chữ cái và khoảng trắng.")
-        # if not 18 <= vals['age'] <= 60:
-        #     raise ValueError("Trường 'Tuổi' phải nằm trong khoảng từ 18 đến 60.")
-        if not re.match(r'^\S+@\S+\.\S+$', vals['email']):
-            raise ValueError("Trường 'Email' phải là một địa chỉ email hợp lệ.")
-        if not re.match(r'^0\d{9,10}$', vals['phone']):
-            raise ValueError("Trường 'Số điện thoại' phải là một số điện thoại hợp lệ bắt đầu bằng 0 và có 10 hoặc 11 chữ số.")
-        return super(intern_model, self).create(vals)
-    def write(self, vals):  
-        # if 'name' in vals and not re.match(r'^[a-zA-Z\s]+$', vals['name']):
-        #     raise ValueError("Trường 'Họ và Tên' phải chứa chỉ chữ cái và khoảng trắng.")
-        # if 'age' in vals and not 18 <= vals['age'] <= 60:
-        #     raise ValueError("Trường 'Tuổi' phải nằm trong khoảng từ 18 đến 60.")
-        if 'email' in vals and not re.match(r'^\S+@\S+\.\S+$', vals['email']):
-            raise ValueError("Trường 'Email' phải là một địa chỉ email hợp lệ.")
-        if 'phone' in vals and not re.match(r'^0\d{9,10}$', vals['phone']):
-            raise ValueError("Trường 'Số điện thoại' phải là một số điện thoại hợp lệ bắt đầu bằng 0 và có 10 hoặc 11 chữ số.")
-        return super(intern_model, self).write(vals)
-    
+    # order_intern_ids = fields.One2many(
+    #     comodel_name='intern.order', 
+    #     inverse_name='intern_id',  
+    #     string='Orders'
+    # )
+
+ # -*- coding: utf-8 -*-
+
     def action_send_interns(self):
-        # Lấy context để lấy ID của yêu cầu
+    # Lấy context để lấy ID của yêu cầu
         request_id = self.env.context.get('default_request_id')
         if not request_id:
             raise UserError("Không tìm thấy yêu cầu.")
@@ -142,6 +114,7 @@ class intern_model(models.Model):
             <li><strong>Số điện thoại:</strong> {self.phone}</li>
             <li><strong>Kỹ năng:</strong> {self.skills}</li>
             <li><strong>Địa chỉ:</strong> {self.address}</li>
+
         </ul>
         <p>Vui lòng xem CV của ứng viên trong tệp đính kèm.</p>
         <p>Trân trọng,</p>
@@ -170,3 +143,4 @@ class intern_model(models.Model):
         self.env['mail.mail'].create(email_values).send()
 
         return True
+
