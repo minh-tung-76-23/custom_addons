@@ -22,6 +22,8 @@
     'depends': [
         'base', 
         'university_management', 
+        'intern_pos_management', 
+        'company_management', 
     ],
     'installable': True,
     'application': True,

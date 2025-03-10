@@ -1,4 +1,4 @@
-from odoo import api, models, fields
+from odoo import models, fields, api
 
 class Request(models.Model):
     _name = 'company.request'
@@ -34,3 +34,18 @@ class Request(models.Model):
         for record in self:
             if record.sent_quantity == record.quantity_intern:
                 record.request_state = 'submitted'
+
+    # Phương thức xử lý khi click nút "Gửi thực tập sinh"
+    def action_send_interns(self):
+        # Mở view hiển thị tên yêu cầu và danh sách sinh viên
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.name,  # Tên yêu cầu
+            'res_model': 'intern.management',  # Model hiển thị
+            'view_mode': 'tree,form',  # Chế độ hiển thị
+            'domain': [('intern_status', '=', 'pending')],  # Lọc dữ liệu nếu cần
+            'context': {
+                'default_request_id': self.id,  # Truyền ID của yêu cầu
+            },
+            'target': 'new',  # Mở trong cửa sổ mới
+        }

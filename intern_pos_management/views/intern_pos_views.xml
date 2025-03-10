@@ -1,0 +1,29 @@
+<odoo>
+    <!-- Tree view for company.request -->
+    <record id="view_request_tree" model="ir.ui.view">
+        <field name="name">company.request.tree</field>
+        <field name="model">company.request</field>
+        <field name="arch" type="xml">
+            <tree string="Danh sách yêu cầu">
+                <field name="name" />
+                <field name="request_skills" />
+                <field name="quantity_intern" />
+                <field name="sent_quantity" />
+                <field name="request_state" />
+                <field name="company_id" />
+                <!-- Nút "Gửi thực tập sinh" chỉ hiển thị khi request_state = 'insufficient' -->
+                <button name="action_send_interns" string="Gửi thực tập sinh" type="object"
+                    class="btn-primary"
+                    attrs="{'invisible': [('request_state', '!=', 'insufficient')]}" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action to open the tree view -->
+    <record id="action_request_tree" model="ir.actions.act_window">
+        <field name="name">Danh sách yêu cầu</field>
+        <field name="res_model">company.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_request_tree" />
+    </record>
+</odoo>

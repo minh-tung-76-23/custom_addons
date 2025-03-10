@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_intern_tree" model="ir.ui.view">
+        <field name="name">intern.management.tree</field>
+        <field name="model">intern.management</field>
+        <field name="arch" type="xml">
+            <tree string="Danh sách thực tập sinh">
+                <field name="name" string="Tên" />
+                <field name="email" string="Email" />
+                <field name="phone" string="Số điện thoại" />
+                <field name="skills" string="Kỹ năng" />
+                <field name="intern_status" string="Trạng thái thực tập" />
+                <button string="Gửi"
+                    type="object"
+                    name="action_send_interns"
+                    class="btn-primary"
+                    confirm="Bạn có chắc chắn muốn gửi thực tập sinh này không?" />
+            </tree>
+        </field>
+    </record>
+</odoo>

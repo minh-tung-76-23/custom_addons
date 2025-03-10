@@ -1,0 +1,8 @@
+<odoo>
+    <menuitem id="menu_hr_root" name="Vị Trí Thực Tập" sequence="10" />
+    <menuitem id="menu_request_tree" name="Danh sách vị trí" parent="menu_hr_root"
+        action="action_request_tree" />
+    <menuitem id="menu_intern_order_tree" name="Yêu cầu đã gửi"
+        parent="menu_hr_root"
+        action="action_intern_order_tree" />
+</odoo>

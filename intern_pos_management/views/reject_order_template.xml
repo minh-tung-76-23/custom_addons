@@ -1,0 +1,13 @@
+<!-- views/reject_order_template.xml -->
+<odoo>
+    <template id="reject_order_template" name="Reject Order Template">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Thông báo</h4>
+                    <p t-esc="message" />
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
