@@ -62,10 +62,6 @@ class intern_model(models.Model):
             raise ValueError("Trường 'Số điện thoại' phải là một số điện thoại hợp lệ bắt đầu bằng 0 và có 10 hoặc 11 chữ số.")
         return super(intern_model, self).create(vals)
     def write(self, vals):  
-        # if 'name' in vals and not re.match(r'^[a-zA-Z\s]+$', vals['name']):
-        #     raise ValueError("Trường 'Họ và Tên' phải chứa chỉ chữ cái và khoảng trắng.")
-        # if 'age' in vals and not 18 <= vals['age'] <= 60:
-        #     raise ValueError("Trường 'Tuổi' phải nằm trong khoảng từ 18 đến 60.")
         if 'email' in vals and not re.match(r'^\S+@\S+\.\S+$', vals['email']):
             raise ValueError("Trường 'Email' phải là một địa chỉ email hợp lệ.")
         if 'phone' in vals and not re.match(r'^0\d{9,10}$', vals['phone']):
@@ -81,7 +77,7 @@ class intern_model(models.Model):
         # Lấy thông tin yêu cầu
         request = self.env['company.request'].browse(request_id)
         if not request:
-            raise UserError("Không tìm thấy yêu cầu.")
+            raise UserError("Không tìm thấy vị trí thực tập.")
 
         # Lấy thông tin công ty
         company = request.company_id
@@ -94,7 +90,7 @@ class intern_model(models.Model):
             ('intern_id', '=', self.id),
         ])
         if existing_order:
-            raise UserError(f'Thực tập sinh {self.name} đã được gán vào yêu cầu này.')
+            raise UserError(f'Thực tập sinh {self.name} đã được gửi đến vị trí này!')
 
         # Tạo bản ghi trong intern.order
         intern_order = self.env['intern.order'].create({
@@ -119,7 +115,7 @@ class intern_model(models.Model):
             'tag': 'display_notification',
             'params': {
                 'title': 'Thành công',
-                'message': f'Đã gửi thực tập sinh {self.name} và email đến công ty.',
+                'message': f'Đã gửi thực tập sinh {self.name} và email đến công ty {company.name}.',
                 'type': 'success',
                 'sticky': False,
             }

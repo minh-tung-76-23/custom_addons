@@ -1,0 +1,29 @@
+<odoo>
+    <!-- views/appointment_form_template.xml -->
+    <template id="appointment_complete_form_template" name="Appointment Complete Form Template">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1 class="my-3">Thời gian bắt đầu thực tập</h1>
+                <form action="/intern/order/confirm/approve/submit" method="post">
+                    <input type="hidden" name="order_id" t-att-value="order.id" />
+                    <div class="form-group">
+                        <label for="appointment_schedule">Chọn Thời gian</label>
+                        <input type="datetime-local" class="form-control mt-2"
+                            id="appointment_schedule"
+                            name="appointment_schedule" required="required" />
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-5">Xác Nhận</button>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="appointment_complete_success_template" name="Appointment Success Template">
+        <t t-call="website.layout">
+            <div class="container mt-5 pt-5">
+                <h1>Thời gian thực tập đã được lưu lại</h1>
+                <p>Chúng tôi sẽ thông báo thời gian đến ứng viên bạn đã lựa chọn.</p>
+            </div>
+        </t>
+    </template>
+</odoo>

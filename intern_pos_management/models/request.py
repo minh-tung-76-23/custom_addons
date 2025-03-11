@@ -40,7 +40,7 @@ class Request(models.Model):
         # Mở view hiển thị tên yêu cầu và danh sách sinh viên
         return {
             'type': 'ir.actions.act_window',
-            'name': self.name,  # Tên yêu cầu
+            'name': f'{self.name} - {self.request_skills}',  # Tên vị trí
             'res_model': 'intern.management',  # Model hiển thị
             'view_mode': 'tree,form',  # Chế độ hiển thị
             'domain': [('intern_status', '=', 'pending')],  # Lọc dữ liệu nếu cần

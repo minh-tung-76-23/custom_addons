@@ -1,0 +1,26 @@
+<odoo>
+    <record id="email_template_intern_order_approved" model="mail.template">
+        <field name="name">Xác nhận thực tập sinh</field>
+        <field name="model_id" ref="model_intern_order" />
+        <field name="subject">Thông báo ứng viên thực tập</field>
+        <field name="body_html"><![CDATA[
+        <p>Xin chào ${object.company_name},</p>
+        <p>Bạn đã nhận được một ứng viên thực tập sinh cho yêu cầu <strong>${object.request_id.name}</strong> sau quá trình phỏng vấn.</p>
+        <p>Thông tin ứng viên:</p>
+        <ul>
+            <li><strong>Tên:</strong> ${object.intern_id.name}</li>
+            <li><strong>Email:</strong> ${object.intern_id.email}</li>
+            <li><strong>Số điện thoại:</strong> ${object.intern_id.phone}</li>
+            <li><strong>Kỹ năng:</strong> ${object.intern_id.skills}</li>
+            <li><strong>Địa chỉ:</strong> ${object.intern_id.address}</li>
+        </ul>
+        <p>Chúng tôi thấy rằng ứng viên đã tham gia lịch phỏng vấn bạn đã hẹn.</p>
+        <p>Để chấp nhận ứng viên này, vui lòng: <a href="${object.get_approval_link_confirm()}">Chấp nhận ứng viên</a></p>
+        <p>Nếu ứng viên không phù hợp, <a href="${object.get_reject_link()}">Vui lòng click vào đây!</a></p>
+        <p>Trân trọng,</p>
+        <p>Hệ thống quản lý thực tập sinh</p>
+    ]]></field>
+        <field name="email_from">${object.company_id.email or ''}</field>
+        <field name="email_to">${object.intern_id.email or ''}</field>
+    </record>
+</odoo>

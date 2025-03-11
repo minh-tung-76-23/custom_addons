@@ -29,6 +29,7 @@
         'views/company_edit_views.xml',
         'views/company_request_add_views.xml',
         'views/company_request_edit_views.xml',
+        'views/appointment_complete_form_template.xml',
         'views/appointment_form_template.xml',
         'views/reject_order_template.xml',
         'views/website_menu.xml',

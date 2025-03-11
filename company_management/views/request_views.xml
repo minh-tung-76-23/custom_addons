@@ -34,6 +34,7 @@
                 <field name="quantity_intern" />
                 <field name="request_skills" />
                 <field name="request_details" />
+                <field name="contact_email" />
                 <field name="request_state" />
                 <field name="company_id" />
             </tree>
@@ -56,6 +57,7 @@
                         <field name="interest" />
                         <field name="work_time" />
                         <field name="note" />
+                        <field name="contact_email" />
                         <field name="request_state" />
                         <field name="company_id" />
                     </group>
@@ -66,7 +68,7 @@
 
     <!-- Action -->
     <record id="action_company_requests" model="ir.actions.act_window">
-        <field name="name">Yêu cầu của doanh nghiệp</field>
+        <field name="name">Vị trí tuyển dụng tại doanh nghiệp</field>
         <field name="res_model">company.request</field>
         <field name="view_mode">search,tree,form</field>
     </record>

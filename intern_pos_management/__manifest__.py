@@ -8,16 +8,19 @@
     "category": "Tools",
     "depend": ['base', 
                'company_management', 
-               'intern_management'
+               'intern_management',
+               'mail'
     ],
     
     "data": [
         # 'security/company_security.xml',
         # 'security/ir.model.access.csv',
+        # 'data/email_confirm_internship_templates.xml',
         'views/menu_views.xml',
         'views/intern_pos_views.xml',
         'views/intern_order_views.xml',
         'views/appointment_form_template.xml',
+        'views/appointment_complete_form_template.xml',
         'views/reject_order_template.xml',
         'views/list_intern_views.xml',
         # 'views/request_views.xml',

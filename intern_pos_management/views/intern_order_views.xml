@@ -7,9 +7,11 @@
             <tree string="Vị trí thực tập">
                 <field name="request_id" />
                 <field name="intern_id" />
-                <field name="company_name" string="Tên công ty" /> <!-- Thêm cột Tên công ty -->
+                <field name="company_name" string="Tên công ty" />
                 <field name="appointment_schedule" />
                 <field name="status" />
+                <button name="send_email" string="Gửi email" type="object" class="btn-primary"
+                    attrs="{'invisible': [('status', '!=', 'approved')]}" />
             </tree>
         </field>
     </record>
