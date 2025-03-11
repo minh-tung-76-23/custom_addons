@@ -362,3 +362,27 @@ class InternWebController(http.Controller):
             })
         else:
             return request.not_found("Không tìm thấy đơn thực tập.")
+        
+    @http.route('/intern/order/confirm/approve/<int:order_id>', type='http', auth="public", website=True)
+    def show_appointment_form_confirm(self, order_id, **kwargs):
+        intern_order = request.env['intern.order'].sudo().browse(order_id)
+        if not intern_order.exists():
+            return request.not_found()
+        return request.render('internship_web.appointment_complete_form_template', {
+            'order': intern_order,
+        })
+
+    @http.route('/intern/order/confirm/approve/submit', type='http', auth="public", website=True, csrf=False)
+    def submit_appointment_form_confirm(self, **post):
+        order_id = int(post.get('order_id'))
+        appointment_schedule = post.get('appointment_schedule')
+        intern_order = request.env['intern.order'].sudo().browse(order_id)
+        if intern_order.exists():
+            intern_order.write({
+                'appointment_schedule': appointment_schedule,
+                'status': 'completed',
+            })
+            return request.render('internship_web.appointment_complete_success_template', {
+                'order': intern_order,
+            })
+        return request.not_found()
